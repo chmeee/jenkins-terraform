@@ -1,0 +1,27 @@
+version: '3'
+services:
+  jenkins:
+    build: .
+    image: 'jenkins-terraform:lts'
+    restart: always
+    ports:
+      - '8080:8080'
+      - '5000:5000'
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+  gitea:
+    image: 'gitea/gitea:latest'
+    restart: always
+    volumes:
+      - gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+volumes:
+  jenkins_home:
+    driver: local
+  gitea:
+    driver: local
